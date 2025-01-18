@@ -7,7 +7,7 @@ namespace CustomClasses.Runtime
     /// Base class for ScriptableObjects that can notify subscribers when their values change.
     /// </summary>
     /// <typeparam name="T">The type of ScriptableObject being observed.</typeparam>
-    internal abstract class ObservableScriptableObject<T> : ScriptableObject where T : ScriptableObject
+    public abstract class ObservableScriptableObject<T> : ScriptableObject where T : ScriptableObject
     {
         /// <summary>
         /// Event that is triggered when a value in the ScriptableObject changes.
