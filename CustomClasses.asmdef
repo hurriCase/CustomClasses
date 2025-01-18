@@ -1,7 +1,10 @@
 {
     "name": "CustomClasses",
     "rootNamespace": "CustomClasses",
-    "references": [],
+    "references": [
+        "GUID:35af6c2fc33422b45adfc9f3f48a017e",
+        "GUID:4471580324f9aef4398d37e5f071355c"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
