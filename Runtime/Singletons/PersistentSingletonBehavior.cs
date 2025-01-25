@@ -12,20 +12,9 @@ namespace CustomClasses.Runtime.Singletons
     /// <typeparam name="T">The type of MonoBehaviour to make a persistent singleton.</typeparam>
     public abstract class PersistentSingletonBehavior<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static bool _isCreated;
-
         private static T _instance;
 
-        public static T Instance
-        {
-            get
-            {
-                if (_isCreated is false)
-                    CreateInstance();
-
-                return _instance;
-            }
-        }
+        public static T Instance => _instance ?? (_instance = CreateInstance());
 
         protected virtual void Awake()
         {
@@ -38,16 +27,28 @@ namespace CustomClasses.Runtime.Singletons
                 return;
 
             _instance = null;
-            _isCreated = false;
             DIContainer.ClearSingletonDependency<T>();
         }
 
-        private static void CreateInstance()
+        private static T CreateInstance()
         {
-            if (_isCreated)
-                return;
-
             var type = typeof(T);
+            var instances = FindObjectsByType<T>(FindObjectsSortMode.None);
+
+            if (instances.Length > 0)
+            {
+                if (instances.Length == 1)
+                    return instances[0];
+
+                Debug.LogWarning(
+                    "[PersistentSingletonBehavior::CreateInstance] There is more than one instance of Singleton " +
+                    $"of type '{type}'. Keeping the first one. Destroying the others.");
+                for (var i = 1; i < instances.Length; i++)
+                    Destroy(instances[i].gameObject);
+
+                return instances[0];
+            }
+
             var prefabName = type.Name;
 
             if (ResourceLoader<T>.TryLoad(out var prefab))
@@ -55,9 +56,7 @@ namespace CustomClasses.Runtime.Singletons
 
             var gameObject = prefab ? Instantiate(prefab.gameObject) : new GameObject(prefabName);
 
-            _instance ??= gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
-
-            _isCreated = true;
+            return _instance ??= gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
         }
     }
 }
