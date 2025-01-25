@@ -20,23 +20,24 @@ namespace CustomClasses.Runtime.Singletons
         {
             get
             {
-                if (_instance != null) return _instance;
+                if (_instance)
+                    return _instance;
 
-                var attr = typeof(T).GetCustomAttribute<ResourceAttribute>();
-                if (attr == null)
+                var attribute = typeof(T).GetCustomAttribute<ResourceAttribute>();
+                if (attribute == null)
                 {
                     Debug.LogError($"[SingletonScriptableObject] {typeof(T).Name} missing ResourceAttribute");
                     return null;
                 }
 
-                _instance = Resources.Load<T>(attr.ResourcePath);
+                _instance = Resources.Load<T>(attribute.ResourcePath);
 
 #if UNITY_EDITOR
                 if (_instance)
                     return _instance;
 
                 _instance = CreateInstance<T>();
-                SaveInstance(attr);
+                SaveInstance(attribute);
 #endif
                 return _instance;
             }
