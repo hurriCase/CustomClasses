@@ -30,7 +30,8 @@ namespace CustomClasses.Runtime.Singletons
                     return null;
                 }
 
-                _instance = Resources.Load<T>(attribute.ResourcePath);
+                if (attribute.TryGetFullResourcePath(out var path))
+                    _instance = Resources.Load<T>(path);
 
 #if UNITY_EDITOR
                 if (_instance)
