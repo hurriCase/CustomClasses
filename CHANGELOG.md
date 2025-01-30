@@ -12,3 +12,5 @@
 - Multiply instances of a persistent singleton.
 ### Refactor
 - SingletonScriptableObject.
+## [1.0.4] - 2025-01-30
+- Resource path usage
