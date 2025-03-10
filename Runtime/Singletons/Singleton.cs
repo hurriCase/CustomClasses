@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace CustomClasses.Runtime.Singletons
 {
@@ -15,5 +16,8 @@ namespace CustomClasses.Runtime.Singletons
         {
             get { return _instance = _instance ?? (_instance = Activator.CreateInstance(typeof(T)) as T); }
         }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStaticVariables() => _instance = null;
     }
 }

@@ -12,6 +12,9 @@ namespace CustomClasses.Runtime.Singletons
     {
         public static T Instance { get; private set; }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStaticVariables() => Instance = null;
+
         protected virtual void Awake()
         {
             if (Instance)

@@ -16,6 +16,9 @@ namespace CustomClasses.Runtime.Singletons
 
         public static T Instance => _instance ?? (_instance = CreateInstance());
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStaticVariables() => _instance = null;
+
         protected virtual void Awake()
         {
             DontDestroyOnLoad(gameObject);
