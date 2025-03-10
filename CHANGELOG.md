@@ -14,3 +14,6 @@
 - SingletonScriptableObject.
 ## [1.0.4] - 2025-01-30
 - Resource path usage
+### Feat
+## [1.0.5] - 2025-03-10
+- Reset Instances for non domain-reload mod
