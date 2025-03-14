@@ -14,14 +14,44 @@ namespace CustomClasses.Runtime.Singletons
     {
         private static T _instance;
 
-        public static T Instance => _instance ?? (_instance = CreateInstance());
+        public static T Instance
+        {
+            get
+            {
+                if (_created)
+                    return _instance;
+
+                _instance = CreateInstance();
+                _created = true;
+
+                return _instance;
+            }
+        }
+
+        private static bool _created;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStaticVariables() => _instance = null;
+        private static void ResetStaticVariables()
+        {
+            _instance = null;
+            _created = false;
+        }
 
         protected virtual void Awake()
         {
-            DontDestroyOnLoad(gameObject);
+            if (_instance is null)
+            {
+                if (_created is false)
+                    _instance = CreateInstance();
+
+                DontDestroyOnLoad(gameObject);
+                return;
+            }
+
+            if (_instance == this)
+                return;
+
+            Destroy(gameObject);
         }
 
         protected virtual void OnDestroy()
@@ -40,12 +70,11 @@ namespace CustomClasses.Runtime.Singletons
 
             if (instances.Length > 0)
             {
-                if (instances.Length == 1)
+                if (instances.Length <= 1)
                     return instances[0];
 
-                Debug.LogWarning(
-                    "[PersistentSingletonBehavior::CreateInstance] There is more than one instance of Singleton " +
-                    $"of type '{type}'. Keeping the first one. Destroying the others.");
+                Debug.LogWarning($"There is more than one instance of Singleton of type '{type}'." +
+                                 " Keeping the first one. Destroying the others.");
                 for (var i = 1; i < instances.Length; i++)
                     Destroy(instances[i].gameObject);
 
