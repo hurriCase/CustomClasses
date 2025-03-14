@@ -31,7 +31,7 @@ namespace CustomClasses.Runtime.Singletons
         private static bool _created;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        internal static void ResetStaticVariables()
+        private static void ResetStaticVariables()
         {
             _instance = null;
             _created = false;
