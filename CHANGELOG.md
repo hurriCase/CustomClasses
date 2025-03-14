@@ -17,3 +17,5 @@
 ### Feat
 ## [1.0.5] - 2025-03-10
 - Reset Instances for non domain-reload mod
+## [1.0.6] - 2025-03-14
+- Fix PersistentSingletonBehavior lifetime management. 
