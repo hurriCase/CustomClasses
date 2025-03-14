@@ -22,4 +22,7 @@
 - Fix PersistentSingletonBehavior lifetime management. 
 ### Fix
 ## [1.0.7] - 2025-03-14
-- Fix build issue this access modifier. 
+- Fix build issue this access modifier.
+### Feat
+## [1.0.8] - 2025-03-14
+- Added link.xml to provide the ability to set high managed stripping level. 
