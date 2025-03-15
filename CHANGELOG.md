@@ -26,3 +26,9 @@
 ### Feat
 ## [1.0.8] - 2025-03-14
 - Added link.xml to provide the ability to set high managed stripping level. 
+## [1.0.9] - 2025-03-15
+### Refactor
+- Remove link.xml
+- Remove dependencyinjection dependency
+### Fix
+- Fix error on build when managed stripping level set to high
