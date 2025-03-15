@@ -8,7 +8,7 @@ namespace CustomClasses.Runtime.Singletons
     /// Creates instance lazily on first access.
     /// </summary>
     /// <typeparam name="T">The type to make a singleton.</typeparam>
-    public abstract class Singleton<T> where T : class
+    public abstract class Singleton<T> where T : class, IDisposable
     {
         private static T _instance;
 
@@ -17,7 +17,9 @@ namespace CustomClasses.Runtime.Singletons
             get { return _instance = _instance ?? (_instance = Activator.CreateInstance(typeof(T)) as T); }
         }
 
+#if UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStaticVariables() => _instance = null;
+#endif
     }
 }

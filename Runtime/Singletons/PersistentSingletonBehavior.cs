@@ -1,5 +1,5 @@
+using System;
 using AssetLoader.Runtime;
-using DependencyInjection.Runtime;
 using UnityEngine;
 
 // ReSharper disable StaticMemberInGenericType
@@ -28,15 +28,19 @@ namespace CustomClasses.Runtime.Singletons
             }
         }
 
+        public static event Action OnDestroyed;
+
         private static bool _created;
 
+#if UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStaticVariables()
         {
             _instance = null;
+            OnDestroyed = null;
             _created = false;
         }
-
+#endif
         protected virtual void Awake()
         {
             if (_instance is null)
@@ -60,7 +64,8 @@ namespace CustomClasses.Runtime.Singletons
                 return;
 
             _instance = null;
-            DIContainer.ClearSingletonDependency<T>();
+
+            OnDestroyed?.Invoke();
         }
 
         private static T CreateInstance()

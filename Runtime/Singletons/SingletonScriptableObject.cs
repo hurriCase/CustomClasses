@@ -44,8 +44,10 @@ namespace CustomClasses.Runtime.Singletons
             }
         }
 
+#if UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStaticVariables() => _instance = null;
+#endif
 
 #if UNITY_EDITOR
         private static void SaveInstance(ResourceAttribute attr)

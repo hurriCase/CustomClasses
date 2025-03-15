@@ -1,4 +1,4 @@
-using DependencyInjection.Runtime;
+using System;
 using UnityEngine;
 
 namespace CustomClasses.Runtime.Singletons
@@ -12,8 +12,16 @@ namespace CustomClasses.Runtime.Singletons
     {
         public static T Instance { get; private set; }
 
+        public static event Action OnDestroyed;
+
+#if UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStaticVariables() => Instance = null;
+        private static void ResetStaticVariables()
+        {
+            Instance = null;
+            OnDestroyed = null;
+        }
+#endif
 
         protected virtual void Awake()
         {
@@ -29,7 +37,8 @@ namespace CustomClasses.Runtime.Singletons
                 return;
 
             Instance = null;
-            DIContainer.ClearSingletonDependency<T>();
+
+            OnDestroyed?.Invoke();
         }
     }
 }
