@@ -39,6 +39,7 @@ namespace CustomClasses.Runtime.Singletons
             Instance = null;
 
             OnDestroyed?.Invoke();
+            OnDestroyed = null;
         }
     }
 }
