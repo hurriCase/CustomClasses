@@ -32,3 +32,6 @@
 - Remove dependencyinjection dependency
 ### Fix
 - Fix error on build when managed stripping level set to high
+## [1.0.10] - 2025-03-17
+### Refactor
+- OnDestroyed event reset
