@@ -8,7 +8,7 @@ namespace CustomClasses.Runtime.Singletons
     /// Creates instance lazily on first access.
     /// </summary>
     /// <typeparam name="T">The type to make a singleton.</typeparam>
-    public abstract class Singleton<T> where T : class, IDisposable
+    public abstract class Singleton<T> where T : class
     {
         private static T _instance;
 
