@@ -35,3 +35,6 @@
 ## [1.0.10] - 2025-03-17
 ### Refactor
 - OnDestroyed event reset
+## [1.0.11] - 2025-03-17
+### Refactor
+- Was removed IDisposable for Singleton.cs.
